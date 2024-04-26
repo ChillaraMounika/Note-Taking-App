@@ -1,0 +1,214 @@
+* {
+  margin: 0;
+  padding: 0;
+
+}
+
+.container {
+  height: 100vh;
+  width: 100vw;
+  overflow: hidden;
+  z-index: 800; 
+}
+.hidden {
+  display: none;
+}
+*
+.icon {
+  color: #001F8B;
+  height: 60px;
+  width: 80px;
+  border-radius: 50%;
+  display: grid;
+  place-content: center;
+  font-size: 1rem;
+  color:#001F8B;
+}
+
+.header {
+  width: 100%;
+  height: 10vh;
+  background: #001F8B;
+  display: flex;
+  align-items: center;
+  padding: 0 1rem;
+  gap: 1.25rem;
+  color:white;
+}
+
+.header > div {
+  display: flex;
+  gap: 10px;
+}
+
+.icon + div {
+  align-self: center;
+  font-weight: 500;
+  font-size: 1.2em;
+}
+
+.content {
+  width: 100%;
+  height: 70vh;
+  overflow: auto;
+}
+
+.input {
+  width: 100%;
+  height: 20vh;
+  padding: 1rem 1.5rem;
+  background-color: #001F8B;
+}
+
+.input textarea {
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  outline: none;
+  border: none;
+  padding: 1rem;
+  resize: none;
+  font-size: 1rem;
+  border-radius: 10px;
+}
+
+/* Adjust the width of the scrollbar */
+::-webkit-scrollbar {
+  width: 7px; /* Set a fixed width */
+}
+
+/* Adjust other scrollbar styles as needed */
+::-webkit-scrollbar-track {
+  background: #000000A1;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #FFFFFF;
+  border-radius: 2px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #FFFFFF;
+}
+
+textarea + div {
+  position: absolute;
+  right: 2rem;
+  bottom: 1.35rem;
+}
+
+.hidden {
+  display: none;
+}
+
+.notes {
+  width: 100%;
+  padding: 0.3rem;
+  font-size: 0.75rem;
+  display: flex;
+  flex-direction: column;
+  gap: -1rem;
+}
+.note {
+  display: flex;
+  gap: 1rem; /* Adjust this value as needed */
+  padding: 1rem;
+  overflow-x: hidden;
+}
+
+.dateTime {
+  font-size: 0.75rem;
+  width: 120px;
+  font-weight: 500;
+}
+
+.note {
+  display: flex;
+  gap: -0.75rem;
+  padding: 0.3rem;
+  overflow-x: hidden;
+}
+.note {
+  display: flex;
+  gap: -2rem; /* Adjust this value as needed  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Adding box shadow */
+  padding: 0.3rem;
+  overflow-x: hidden;
+ 
+  
+}
+.noteContent {
+  font-weight: 350;
+  width: 100%;
+}
+
+@media (min-width: 768px) {
+  .notes {
+    font-size: 1rem; 
+   
+  }
+  .note {
+    padding: 0.5rem 2rem;
+    line-height: 1.5;
+  }
+  .dateTime {
+    width: 150px;
+    font-size: 1rem;
+  }
+ 
+}
+.noteContentBox {
+  position: relative;
+  background-color: white;
+  width: 100%;
+  box-sizing: border-box;
+  overflow: hidden;
+  margin-top: 0px !important;
+  
+}
+
+.noteContent {
+  background-color: white;
+  padding: 26px;
+  border-radius: 5px;
+  gap:8px;
+  width: 100%;
+  overflow: hidden; /* Prevent content from overflowing outside the box */
+  white-space: pre-wrap; /* Preserve line breaks */
+  word-break: break-word;
+  border-radius: 5px;
+}
+
+.timestamp {
+  margin-top:30px;
+  position: absolute;
+  bottom: 5px;
+  right: 5px;
+  font-size: 0.8rem;
+  color: black;
+}
+
+.iconCircle {
+  width: 49px;
+  height: 49px;
+  padding:18px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 1rem;
+  color: white;
+  margin-right: 10px;
+}
+.noteContent {
+  background-color: white;
+  padding: 26px;
+  border-radius: 5px;
+  width: 100%;
+  overflow: hidden; /* Prevent content from overflowing outside the box */
+  white-space: pre-wrap; /* Preserve line breaks */
+  word-break: break-word;
+  border-radius: 5px;
+  margin-bottom: 20px; /* Add margin bottom to create space between notes */
+  letter-spacing: 1px; /* Add spacing between letters */
+  font-weight: 380;
+}
