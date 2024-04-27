@@ -2,7 +2,7 @@
 import React, { useContext } from "react";
 import styles from "../SelectNotes/SelectNotes.module.css";
 import NoteCreation from "./subcomponents/NoteCreation/NoteCreation";
-import NoteHeading from "./subcomponents/NoteName/NoteName";
+import NoteHeading from "./subcomponents/NoteHeading/NoteHeading";
 import { NotesContext } from "../../context/NoteContext";
 
 function SelectNotes() {
@@ -10,7 +10,7 @@ function SelectNotes() {
 
     return (
         <div className={`${styles.container} ${hide && styles.hidden}`}>
-            <h2>Pocket Notes</h2>
+            <h2 className={styles.pNotes}>Pocket Notes</h2>
             <NoteCreation />
             <div className={`${styles.noteHeadingsContainer} ${isMobile && styles.mobile}`}>
                 {noteHeadings.map((noteHeading) => (

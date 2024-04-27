@@ -1,20 +1,15 @@
-import { createContext, useState, useEffect } from "react";
+import React, { createContext, useState, useEffect } from "react";
 
 export const NotesContext = createContext(null);
 
 export const NotesProvider = (props) => {
-
-
     const [modal, setModal] = useState(false);
-    const toggleModal = () => setModal((prev) => !prev);
-    const [noteHeadings, setNoteHeadings] = useState(
-        localStorage.getItem("notes")
-            ? JSON.parse(localStorage.getItem("notes"))
-            : ""
-    );
+    const [noteHeadings, setNoteHeadings] = useState(() => {
+        const storedNotes = localStorage.getItem("notes");
+        return storedNotes ? JSON.parse(storedNotes) : [];
+    });
     const [hide, setHide] = useState(false);
     const [currentGroup, setCurrentGroup] = useState("");
-
     const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
 
     useEffect(() => {
@@ -40,22 +35,24 @@ export const NotesProvider = (props) => {
         };
     }, []);
 
+    const toggleModal = () => setModal((prev) => !prev);
 
-
-    return <NotesContext.Provider
-        value={{
-            modal,
-            toggleModal,
-            noteHeadings,
-            setNoteHeadings,
-            hide,
-            setHide,
-            isMobile,
-            setIsMobile,
-            currentGroup,
-            setCurrentGroup,
-        }}
-    >
-        {props.children}
-    </NotesContext.Provider>;
+    return (
+        <NotesContext.Provider
+            value={{
+                modal,
+                toggleModal,
+                noteHeadings,
+                setNoteHeadings,
+                hide,
+                setHide,
+                isMobile,
+                setIsMobile,
+                currentGroup,
+                setCurrentGroup,
+            }}
+        >
+            {props.children}
+        </NotesContext.Provider>
+    );
 };

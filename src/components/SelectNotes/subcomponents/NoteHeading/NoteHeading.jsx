@@ -4,7 +4,7 @@ import React, { useContext } from "react";
 import styles from "../../SelectNotes.module.css";
 import { NotesContext } from "../../../../context/NoteContext";
 
-function NoteName({ noteHeading }) {
+function NoteHeading({ noteHeading }) {
     const { isMobile, setHide, setCurrentGroup } = useContext(NotesContext);
     const { letters } = noteHeading;
 
@@ -32,4 +32,4 @@ function NoteName({ noteHeading }) {
     );
 }
 
-export default NoteName;
+export default NoteHeading;

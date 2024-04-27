@@ -1,36 +1,30 @@
-
-import MainPage from "../MainPage/MainPage";
 import React, { useContext, useState, useEffect, useCallback } from "react";
+import MainPage from "../MainPage/MainPage";
 import { NotesContext } from "../../context/NoteContext";
 import { IoMdArrowRoundBack } from "react-icons/io";
-import styles from "../RightSide/RightSide.module.css";
+import styles from "./RightSide.module.css";
 import { BiSolidSend } from "react-icons/bi";
 import { nanoid } from "nanoid";
 
 function RightSide() {
     const { currentGroup, hide, setHide, isMobile, noteHeadings, setNoteHeadings } = useContext(NotesContext);
-    const { name, color } = currentGroup;
     const [noteText, setNoteText] = useState("");
-    const [notes, setNotes] = useState(currentGroup.notes);
+    const [notes, setNotes] = useState([]);
     const [isNoteTextEmpty, setIsNoteTextEmpty] = useState(true);
 
-    // Function to generate initials for the group name
-    // Function to generate initials for the group name
-// Function to generate initials for the group name
-// Function to generate initials for the group name
-const generateLetters = (groupName) => {
-    if (!groupName) return "NA";
-    const words = groupName.split(" ");
-    if (words.length === 1) {
-        return groupName.charAt(0).toUpperCase();
-    } else {
-        return words.map((word) => word.charAt(0).toUpperCase()).join("");
-    }
-};
+    useEffect(() => {
+        if (currentGroup && currentGroup.notes) {
+            setNotes(currentGroup.notes);
+        }
+    }, [currentGroup]);
 
-
+    useEffect(() => {
+        setIsNoteTextEmpty(noteText.trim() === "");
+    }, [noteText]);
 
     const addNote = useCallback(() => {
+        if (!noteText.trim()) return;
+
         const currentDate = new Date();
         const currentTime = currentDate.toLocaleString("en-US", {
             hour: "numeric",
@@ -50,18 +44,14 @@ const generateLetters = (groupName) => {
         setNotes((prevNotes) => [...prevNotes, newNote]);
 
         const updatedNoteHeadings = noteHeadings.map((noteHeading) =>
-            noteHeading.name === name
+            noteHeading.name === currentGroup.name
                 ? { ...noteHeading, notes: [...noteHeading.notes, newNote] }
                 : noteHeading
         );
         setNoteHeadings(updatedNoteHeadings);
         setNoteText("");
         setIsNoteTextEmpty(true);
-    }, [name, noteHeadings, noteText, setNoteHeadings]);
-
-    useEffect(() => {
-        setNotes(currentGroup.notes);
-    }, [currentGroup.notes]);
+    }, [noteText, noteHeadings, setNoteHeadings, currentGroup.name]);
 
     useEffect(() => {
         localStorage.setItem("notes", JSON.stringify(noteHeadings));
@@ -69,44 +59,45 @@ const generateLetters = (groupName) => {
 
     useEffect(() => {
         function handleKeyPress(e) {
-            if (e.key === "Enter") {
-                if (noteText.trim() !== "") {
-                    addNote();
-                }
+            if (e.key === "Enter" && !isNoteTextEmpty) {
+                addNote();
             }
         }
         window.addEventListener("keydown", handleKeyPress);
-
         return () => window.removeEventListener("keydown", handleKeyPress);
-    }, [addNote, noteText]);
+    }, [addNote, isNoteTextEmpty]);
 
-    useEffect(() => {
-        setIsNoteTextEmpty(noteText.trim() === "");
-    }, [noteText]);
+    const generateLetters = (groupName) => {
+        if (!groupName) return "NA";
+        return groupName.split(" ").map((word) => word[0].toUpperCase()).join("");
+    };
+
+    if (!noteHeadings || !Array.isArray(noteHeadings)) {
+        console.error('Expected noteHeadings to be an array, but got:', noteHeadings);
+        return <div>Error: Data is corrupted.</div>;
+    }
 
     if (!currentGroup && !isMobile) {
         return <MainPage />;
     }
 
     return (
-        <div className={`${styles.container} ${!hide && isMobile && styles.hidden}`}>
+        <div className={`${styles.container} ${!hide && isMobile ? styles.hidden : ""}`}>
             <div className={styles.header}>
                 {isMobile && (
-                    <div onClick={() => setHide(isMobile && false)}>
+                    <div onClick={() => setHide(false)}>
                         <IoMdArrowRoundBack size="1.25rem" />
                     </div>
                 )}
-                <div>
-                    <div className={`${styles.icon} ${styles.iconCircle}`} style={{ backgroundColor: color }}>
-                        {generateLetters(name)}
-                    </div>
-                    <div>{name}</div>
+                <div className={`${styles.icon} ${styles.iconCircle}`} style={{ backgroundColor: currentGroup.color }}>
+                    {generateLetters(currentGroup.name)}
                 </div>
+                <div>{currentGroup.name}</div>
             </div>
 
             <div className={styles.content}>
                 <div className={styles.notes}>
-                    {notes && notes.map((note) => (
+                    {notes.map((note) => (
                         <div className={styles.note} key={nanoid()}>
                             <div className={styles.noteContentBox}>
                                 <div className={styles.noteContent}>{note.note}</div>
@@ -121,11 +112,11 @@ const generateLetters = (groupName) => {
 
             <div className={styles.input}>
                 <textarea
-                    placeholder="Enter your text here..........."
+                    placeholder="Enter your text here..."
                     value={noteText}
                     onChange={(e) => setNoteText(e.target.value)}
                 ></textarea>
-                <div onClick={isNoteTextEmpty ? null : addNote} className={isNoteTextEmpty ? styles.disabled : null}>
+                <div onClick={!isNoteTextEmpty ? addNote : null} className={isNoteTextEmpty ? styles.disabled : ""}>
                     <BiSolidSend style={{ color: "#001F8B" }} size="1.5rem" />
                 </div>
             </div>
